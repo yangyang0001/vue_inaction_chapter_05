@@ -37,7 +37,7 @@ const app = new Vue({
             for (var i = 0; i < this.checked.length; i++) {
                 for(var j = 0; j < this.list.length; j++) {
                     if(this.checked[i] === this.list[j].id) {
-                        console.log(this.checked[i] + " , " +  this.list[j].id);
+                        // console.log(this.checked[i] + " , " +  this.list[j].id);
                         prices += this.list[j].price * this.list[j].count;
                     }
                 }

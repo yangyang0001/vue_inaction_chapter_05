@@ -13,10 +13,11 @@
 <body>
     <div id="app" v-cloak>
         <template v-if="list.length !== 0">
-            <table :style="packageStyle">
+            <table>
                 <thead>
                     <tr>
                         <th></th>
+                        <th>序号</th>
                         <th>商品名称</th>
                         <th>商品单价</th>
                         <th>购买数量</th>
@@ -24,6 +25,9 @@
                     </tr>
                 </thead>
                 <tr v-for="(product, index) in list">
+                    <td>
+                        <input type="checkbox" v-model="checked" :value="product.id" :id="product.id"></input>
+                    </td>
                     <td>{{index+1}}</td>
                     <td>{{product.name}}</td>
                     <td>{{product.price}}</td>
@@ -35,9 +39,11 @@
                     <td><button @click="handleRemove(index)">移除</button></td>
                 </tr>
             </table>
-            总价: ￥{{totalPrice}}
+            <p>总价: ￥{{totalPrice}}</p>
+            <p>选中: ￥{{checkPrice}}</p>
         </template>
         <div v-else>购物车为空</div>
+        
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>

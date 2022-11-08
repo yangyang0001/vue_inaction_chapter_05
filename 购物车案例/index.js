@@ -3,52 +3,62 @@ const app = new Vue({
     data: {
         list: [
             {
-                id: 1,
+                id: 10,
                 name: 'iPhone 7',
                 price: 6188,
                 count: 1
             },
             {
-                id: 2,
+                id: 20,
                 name: 'iPad Pro',
                 price: 5888,
                 count: 1
             },
             {
-                id: 3,
+                id: 30,
                 name: 'MacBook Pro',
                 price: 21488,
                 count: 1
             },
-        ]
+        ],
+        checked: []
     },
     computed: {
-        packageStyle: function () {
-            return {
-                border: 1 + 'px'
-            }
-        },
         totalPrice: function () {
             var prices = 0;
             for (var i = 0; i < this.list.length; i++) {
                 prices += this.list[i].price * this.list[i].count;
             }
-            return prices.toString ().replace(/\B(?=(\d{3})+$)/g, ',');
+            return prices.toString().replace(/\B(?=(\d{3})+$)/g, ',');
+        },
+        checkPrice: function () {
+            if(this.checked.length === 0 || this.checked === null) return 0;
+            var prices = 0;
+            for (var i = 0; i < this.checked.length; i++) {
+                for(var j = 0; j < this.list.length; j++) {
+                    if(this.checked[i] === this.list[j].id) {
+                        prices += this.list[i].price * this.list[i].count;
+                        continue;
+                    }
+                }
+            }
+            return prices.toString().replace(/\B(?=(\d{3})+$)/g, ',');
         }
     },
     methods: {
-        handleReduce: function(index) {
-            if(this.list.length === 0 || this.list[index].count === 1) return;
+        handleReduce: function (index) {
+            if (this.list.length === 0 || this.list[index].count === 1) return;
             this.list[index].count--;
         },
 
-        handleAdd: function(index) {
-            if(this.list.length === 0) return;
+        handleAdd: function (index) {
+            if (this.list.length === 0) return;
             this.list[index].count++;
         },
 
-        handleRemove: function(index) {
-            if(this.list.length === 0 || this.list[index] === null) return;
+        handleRemove: function (index) {
+            if (this.list.length === 0 || this.list[index] === null) return;
+            this.checked.splice(this.checked.indexOf(this.list[index].id), 1);
             this.list.splice(index, 1);
         }
     }

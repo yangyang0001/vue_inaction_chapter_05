@@ -58,9 +58,10 @@ const app = new Vue({
 
         handleRemove: function (index) {
             if (this.list.length === 0 || this.list[index] === null) return;
-            this.checked.splice(this.checked.indexOf(this.list[index].id), 1);
-            console.log(this.checked);
-            console.log(this.checked.indexOf(this.list[index].id));
+            var delIndex = this.checked.indexOf(this.list[index].id);
+            if(delIndex >= 0) {
+                this.checked.splice(delIndex, 1);
+            }
             this.list.splice(index, 1);
         }
     }

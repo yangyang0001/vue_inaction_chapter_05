@@ -37,8 +37,8 @@ const app = new Vue({
             for (var i = 0; i < this.checked.length; i++) {
                 for(var j = 0; j < this.list.length; j++) {
                     if(this.checked[i] === this.list[j].id) {
-                        prices += this.list[i].price * this.list[i].count;
-                        continue;
+                        console.log(this.checked[i] + " , " +  this.list[j].id);
+                        prices += this.list[j].price * this.list[j].count;
                     }
                 }
             }
@@ -59,6 +59,8 @@ const app = new Vue({
         handleRemove: function (index) {
             if (this.list.length === 0 || this.list[index] === null) return;
             this.checked.splice(this.checked.indexOf(this.list[index].id), 1);
+            console.log(this.checked);
+            console.log(this.checked.indexOf(this.list[index].id));
             this.list.splice(index, 1);
         }
     }

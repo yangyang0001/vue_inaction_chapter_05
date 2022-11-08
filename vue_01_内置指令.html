@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>内置指令</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+
+</head>
+
+<body>
+    <!-- html 加载在 vue 加载之前完成时, 会频闪 vue 源码 -->
+    <div id="app1" v-cloak>{{message}}</div>
+
+    <!-- 加载静态内容 -->
+    <div id="app2">
+        <span v-once>{{message}}</span>
+        <div :style="styleA">
+            <span v-pre>{{你好}}</span>
+            <span v-once>{{message}}</span>
+        </div>
+    </div>
+
+    <div id="app3">
+        <p v-if="status === 1">status 等于1时, 显示该行</p>
+        <p v-else-if="status === 2">status 等于2时, 显示该行</p>
+        <p v-else>否则显示这一行</p>
+    </div>
+
+    <!-- template 元素的学习 -->
+    <div id="app4">
+        <template v-if="status === 1">
+            <p>这是一段文本1, status 等于 1</p>
+            <p>这是一段文本2, status 等于 1</p>
+            <p>这是一段文本3, status 等于 1</p>
+        </template>
+        <template v-else-if="status === 2">
+            <p>这是一段文本1, status 等于 2</p>
+            <p>这是一段文本2, status 等于 2</p>
+            <p>这是一段文本3, status 等于 2</p>
+        </template>
+        <template v-else>
+            <p>这是一段文本1, status 不等于 1 且 不等于 2</p>
+            <p>这是一段文本2, status 不等于 1 且 不等于 2</p>
+            <p>这是一段文本3, status 不等于 1 且 不等于 2</p>
+        </template>
+    </div>
+
+    <div id="app5">
+        <template v-if="type === 'name'">
+            <label>用户名:</label>
+            <input name="name" placeholder="输入用户名" />
+        </template>
+        <template v-else>
+            <label>邮　箱:</label>
+            <input name="email" placeholder="输入邮箱" />
+        </template>
+        <button @click="changeInput()">切换输入类型</button>
+    </div>
+
+    <!-- v-show 指令的特殊使用 -->
+    <div id="app6">
+        <!-- 经验证 v-show 不能使用在 template 上 -->
+        <p v-show="showFlag">标签上使用 v-show 指令, 条件为 false 时, 只是添加了样式 style="display: none;"</p>
+    </div>
+
+    <!-- v-for 举例 -->
+    <div id="app7">
+        <ul>
+            <li v-for="(book, index) in books">{{index+1}} --- {{book.name}} --- {{book.author}}</li>
+        </ul>
+        <p v-for="(value, key, index) in user">{{index+1}} --- {{key}} --- {{value}}</p>
+
+        <span v-for="n in 10">{{n}} &nbsp;&nbsp;</span>
+    </div>
+
+    <p>------------------------------------ v-for 改变数组的函数使用 -----------------------------------</p>
+    <div id="app8">
+        <ul>
+            <li v-for="(book, index) in books">{{index+1}} --- {{book.name}} --- {{book.author}}</li>
+        </ul>
+
+        <span v-for="value in numbers">{{value}} &nbsp;&nbsp;&nbsp;&nbsp;</span>
+    </div>
+    
+
+    <script>
+        const app1 = new Vue({
+            el: '#app1',
+            data: {
+                message: 'vue-app1 这是一段文本'
+            }
+        });
+        const app2 = new Vue({
+            el: '#app2',
+            data: {
+                styleA: {
+                    color: 'red',
+                    'font-size' : 22 + 'px'
+                },
+                message: 'vue-app2 这是一段文本'
+            }
+        });
+        const app3 = new Vue({
+            el: '#app3',
+            data: {
+                status : 1
+            }
+        });
+        const app4 = new Vue({
+            el: '#app4',
+            data: {
+                status : 1
+            }
+        });
+        const app5 = new Vue({
+            el: '#app5',
+            data: {
+                type : 'name'
+            },
+            methods: {
+                changeInput: function() {
+                    this.type = this.type === 'name' ? 'email' : 'name';
+                }
+            },
+        });
+        const app6 = new Vue({
+            el: '#app6',
+            data: {
+                showFlag : true
+            }
+        });
+
+        const app7 = new Vue({
+            el: '#app7', 
+            data: {
+                books: [
+                    { 
+                        name : '《 Vue.js 实战》',
+                        author : '梁澈'
+                    },
+                    { 
+                        name : '《 JavaScript 语言精粹》',
+                        author : 'Douglas Crockford'
+                    },
+                    { 
+                        name : '《 JavaScript 高级程序设计》',
+                        author : 'Nicholas C. Zakas'
+                    },
+                ],
+                
+                user: {
+                    name : 'zhangsan',
+                    gender : 1,
+                    age : 22
+                }
+            },
+
+        });
+
+        const app8 = new Vue({
+            el: '#app8',
+            data: {
+                books: [
+                    { 
+                        name : '《 Vue.js 实战》',
+                        author : '梁澈'
+                    },
+                    { 
+                        name : '《 JavaScript 语言精粹》',
+                        author : 'Douglas Crockford'
+                    },
+                    { 
+                        name : '《 JavaScript 高级程序设计》',
+                        author : 'Nicholas C. Zakas'
+                    },
+                ],
+                numbers: [1, 19, 8, 88, 22, 11]
+            },
+        });
+
+        /**************************************** 以下方法会改变 原始数组! ****************************************/
+
+        // 末尾添加一个对象
+        // app8.books.push(
+        //     {
+        //         name : 'DesignPatterns',
+        //         author : 'Erich Gamma、Richard Helm、Ralph Johnson、John Vlissides'
+        //     }
+        // );
+        
+        // 末尾删除一个对象
+        // app8.books.pop();
+        
+        // 头部添加一个对象
+        // app8.books.unshift(
+        //     {
+        //         name : 'DesignPatterns',
+        //         author : 'Erich Gamma、Richard Helm、Ralph Johnson、John Vlissides'
+        //     }
+        // );
+
+        // 头部删除一个对象
+        // app8.books.shift();
+
+        /**
+         *  方法简介: 可以用来替换/删除/添加数组内某一个或者几个值（该方法会改变原始数组）
+         *  splice(index,len,[item])
+         *  index:数组开始下标, len: 替换/删除的长度 0表示添加, item:替换的值, 删除操作的话 item 为空
+         */
+        // 在 index = 1 的位置插入 对象!
+        // app8.books.splice(1, 0, {
+        //     name : 'DesignPatterns',
+        //     author : 'Erich Gamma、Richard Helm、Ralph Johnson、John Vlissides'
+        // });
+
+        // 删除 index = 1 的对象
+        // app8.books.splice(1, 1);
+
+        // 修改 index = 1的对象 为 新对象 
+        // app8.books.splice(1, 1, {
+        //     name : 'DesignPatterns',
+        //     author : 'Erich Gamma、Richard Helm、Ralph Johnson、John Vlissides'
+        // });
+
+        // 将数组改为长度为 len, 使用方式为 splice(len)
+        // app8.books.splice(2);
+
+        // sort() 方法, 自定义排序方法
+        // app8.numbers.sort(function(a, b) {
+        //     return a - b;
+        // });
+
+        // reverse() 翻转方法
+        // app8.numbers.sort(function(a, b) {return a - b;}).reverse();
+
+        /*************************************** 以下方法不会改变 原始数组, 但会返回一个数组 ***************************************/
+        // filter() 过滤原始数组返回一个新数组, 原始数组不改变
+        // var arr = app8.numbers.filter(function(a) {
+        //     return a > 10;
+        // });
+        // app8.numbers = arr;
+
+        // concat() 拼接数组
+        // var newarr = [100, 200, 11, 88];
+        // app8.numbers = app8.numbers.concat(newarr);
+
+        // slice(beginIndex, endIndex) 截取函数, 截取 包含 beginIndex 但不包含 endIndex;
+        // var minearr = app8.numbers.slice(1, 4);
+        // console.log(minearr);
+
+        
+    </script>
+</body>
+
+</html>

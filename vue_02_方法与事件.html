@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>方法与事件</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app1">
+        点击次数：&nbsp;{{counter}}                       <br/><br/>
+        <button @click="counter++">+1</button>          <br/><br/>
+        <button @click="m_handleAdd(1)">+1</button>     <br/><br/>
+        <button @click="m_handleAdd(10)">+10</button>   <br/><br/>
+
+
+    </div>
+
+    <script>
+        const app1 = new Vue({
+            el: '#app1',
+            data: {
+                counter: 0
+            },
+            methods: {
+                m_handleAdd: function (value) {
+                    this.counter += value;
+                }
+            },
+        });
+    </script>
+
+</body>
+
+</html>
